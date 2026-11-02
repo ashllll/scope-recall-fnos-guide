@@ -1,0 +1,6 @@
+{
+  "url": "http://192.0.2.10:18766",
+  "host": "dsh",
+  "token_file": "/YOUR_MAC_HOME/.local/share/scope-recall/clients/dsh/token",
+  "state_dir": "/YOUR_MAC_HOME/.local/share/scope-recall/clients/dsh/state"
+}

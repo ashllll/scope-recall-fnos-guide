@@ -1,0 +1,6 @@
+{
+  "url": "http://192.0.2.10:18765",
+  "host": "codex",
+  "token_file": "/YOUR_MAC_HOME/.local/share/scope-recall/clients/codex/token",
+  "state_dir": "/YOUR_MAC_HOME/.local/share/scope-recall/clients/codex/state"
+}

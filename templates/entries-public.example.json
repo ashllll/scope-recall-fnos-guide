@@ -1,0 +1,14 @@
+[
+  {
+    "host": "codex",
+    "listen": "192.0.2.10",
+    "port": 18765,
+    "token_sha256": "YOUR_64_HEX_DIGEST"
+  },
+  {
+    "host": "dsh",
+    "listen": "192.0.2.10",
+    "port": 18766,
+    "token_sha256": "YOUR_64_HEX_DIGEST"
+  }
+]

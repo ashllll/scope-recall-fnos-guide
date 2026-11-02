@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Scope Recall · fnOS 部署",
+    "locale": "zh-CN",
+    "output": "docs/deployment.html",
+    "quality_profile": "showcase",
+    "animation": "trace"
+  },
+  "components": [
+    {
+      "id": "mac",
+      "type": "frontend",
+      "label": "Mac Codex / DSH",
+      "sublabel": "原生捕获与 MCP 召回",
+      "tag": "独立客户端 token",
+      "pos": [
+        50,
+        90
+      ],
+      "size": [
+        240,
+        76
+      ]
+    },
+    {
+      "id": "entry",
+      "type": "backend",
+      "label": "NAS 远程入口",
+      "sublabel": "Codex 与 DSH 各一个容器",
+      "tag": "Docker 与配置：空间 3",
+      "pos": [
+        410,
+        90
+      ],
+      "size": [
+        240,
+        76
+      ]
+    },
+    {
+      "id": "gateway",
+      "type": "security",
+      "label": "NAS OpenAI 策略组",
+      "sublabel": "NAS 源地址 + 目标域名",
+      "tag": "仅 GLaDOS 候选",
+      "pos": [
+        770,
+        90
+      ],
+      "size": [
+        240,
+        76
+      ]
+    },
+    {
+      "id": "openai",
+      "type": "external",
+      "label": "OpenAI API",
+      "sublabel": "嵌入与后台整理",
+      "tag": "Key 仅在 NAS 配置目录",
+      "pos": [
+        1130,
+        90
+      ],
+      "size": [
+        240,
+        76
+      ]
+    },
+    {
+      "id": "store",
+      "type": "database",
+      "label": "共享记忆与文件",
+      "sublabel": "SQLite · 来源 · 向量 · 账本",
+      "tag": "数据与备份：空间 1",
+      "pos": [
+        410,
+        340
+      ],
+      "size": [
+        240,
+        76
+      ]
+    },
+    {
+      "id": "worker",
+      "type": "backend",
+      "label": "后台 worker",
+      "sublabel": "有界批次 + 30 秒等待",
+      "tag": "Docker 与配置：空间 3",
+      "pos": [
+        770,
+        340
+      ],
+      "size": [
+        240,
+        76
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "mac",
+      "to": "entry",
+      "label": "Hook / MCP",
+      "variant": "security"
+    },
+    {
+      "from": "entry",
+      "to": "gateway",
+      "label": "查询嵌入",
+      "variant": "dashed"
+    },
+    {
+      "from": "gateway",
+      "to": "openai",
+      "label": "HTTPS",
+      "variant": "security"
+    },
+    {
+      "from": "entry",
+      "to": "store",
+      "label": "捕获与检索",
+      "variant": "emphasis"
+    },
+    {
+      "from": "worker",
+      "to": "store",
+      "label": "后台读写",
+      "variant": "dashed"
+    },
+    {
+      "from": "worker",
+      "to": "gateway",
+      "label": "整理与嵌入",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "物理存储分离",
+      "items": [
+        "空间 3：镜像、容器层、Compose、入口配置与模型 Key",
+        "空间 1：记忆数据库、来源、向量、共享账本与手工备份",
+        "共享 runtime 从配置目录只读绑定到共享库路径"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "已验收的参考案例",
+      "items": [
+        "基线 3.17.0；真实两端捕获与双向来源召回通过",
+        "NAS OpenAI：仅 GLaDOS，实际 API 返回 200",
+        "短时容器重启与含向量临时恢复检查通过"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "升级与边界",
+      "items": [
+        "每日检查正式版 → 通知 → 用户确认 → 备份与升级",
+        "NAS 镜像、共享库兼容处理与 Mac 插件一起验收",
+        "冷语义查询偶发降级；生产恢复和长期负载未全验收",
+        "模板需填本机参数；克隆不会创建自动化或部署服务"
+      ]
+    }
+  ]
+}

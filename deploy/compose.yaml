@@ -1,0 +1,38 @@
+name: scope-recall
+x-service: &service
+  image: scope-recall:${SCOPE_RECALL_VERSION:?set SCOPE_RECALL_VERSION}-local
+  build:
+    context: .
+    args:
+      SCOPE_RECALL_VERSION: ${SCOPE_RECALL_VERSION:?set SCOPE_RECALL_VERSION}
+  user: "${NAS_UID:?set NAS_UID}:${NAS_GID:?set NAS_GID}"
+  network_mode: host
+  restart: unless-stopped
+  init: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  environment:
+    TZ: Asia/Shanghai
+    NO_PROXY: localhost,127.0.0.1,${NAS_LISTEN_IP:?set NAS_LISTEN_IP}
+    no_proxy: localhost,127.0.0.1,${NAS_LISTEN_IP:?set NAS_LISTEN_IP}
+  volumes:
+    - ${CONFIG_DIR:?set CONFIG_DIR}:/config
+    - ${DATA_DIR:?set DATA_DIR}:/data
+    - ${CONFIG_DIR:?set CONFIG_DIR}/shared-runtime.json:/data/shared/runtime-config.json:ro
+  logging:
+    driver: json-file
+    options: {max-size: "5m", max-file: "2"}
+services:
+  codex:
+    <<: *service
+    container_name: scope-recall-codex
+    command: [python, -m, scope_recall.adapters.codex.remote_server, serve, --home, /config/entries/mac-codex, --host, codex, --env-file, /config/model.env]
+  dsh:
+    <<: *service
+    container_name: scope-recall-dsh
+    command: [python, -m, scope_recall.adapters.codex.remote_server, serve, --home, /config/entries/mac-dsh, --host, dsh, --env-file, /config/model.env]
+  worker:
+    <<: *service
+    container_name: scope-recall-worker
+    command: [python, /app/worker-loop.py]
+    stop_grace_period: 20s

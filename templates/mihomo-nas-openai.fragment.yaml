@@ -1,0 +1,39 @@
+# Fragment only: merge into the gateway's configuration source.
+# The file provider must contain only GLaDOS nodes; do not use a mixed provider.
+proxy-providers:
+  glados-only:
+    type: file
+    path: ./providers/glados.yaml
+    health-check:
+      enable: true
+      url: https://api.openai.com/v1/models
+      expected-status: 401
+      interval: 300
+      lazy: false
+proxy-groups:
+  - name: NAS OpenAI
+    type: fallback
+    use: [glados-only]
+    empty-fallback: REJECT
+rules:
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN-SUFFIX,openai.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN-SUFFIX,chatgpt.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN-SUFFIX,oaistatic.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN-SUFFIX,oaiusercontent.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN-SUFFIX,oaistatsig.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN-SUFFIX,openaimerge.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN-SUFFIX,ct.sendgrid.net)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN-SUFFIX,intercom.io)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN-SUFFIX,intercomcdn.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN,cdn.workos.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN,challenges.cloudflare.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN,forwarder.workos.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN,frontend-apps-multi-region.workos.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN,humb.apple.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN,images.workoscdn.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN,js.stripe.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN,o207216.ingest.sentry.io)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN,o33249.ingest.sentry.io)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN,rum.browser-intake-datadoghq.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN,setup.workos.com)),NAS OpenAI
+  - AND,((SRC-IP-CIDR,192.0.2.10/32),(DOMAIN,workos.imgix.net)),NAS OpenAI

@@ -1,0 +1,12 @@
+{
+  "mode": "probe",
+  "label": "树莓派外部探针",
+  "probe_url": "http://192.0.2.10:18767/healthz",
+  "state_dir": "/var/lib/scope-recall-watchdog",
+  "sendkey_file": "/run/credentials/scope-recall-watchdog.service/sendkey",
+  "poll_seconds": 60,
+  "alert_after_seconds": 120,
+  "recovery_after_seconds": 60,
+  "notify_retry_seconds": 900,
+  "stale_seconds": 240
+}

@@ -5,8 +5,7 @@
     "title": "Scope Recall · fnOS 部署",
     "locale": "zh-CN",
     "output": "docs/deployment.html",
-    "quality_profile": "showcase",
-    "animation": "trace"
+    "quality_profile": "showcase"
   },
   "components": [
     {
@@ -98,6 +97,51 @@
         240,
         76
       ]
+    },
+    {
+      "id": "monitor",
+      "type": "backend",
+      "label": "只读状态面板",
+      "sublabel": "队列 · 心跳 · 用量 · 备份",
+      "tag": "配置空间 3 / 状态空间 1",
+      "pos": [
+        410,
+        600
+      ],
+      "size": [
+        240,
+        76
+      ]
+    },
+    {
+      "id": "probe",
+      "type": "backend",
+      "label": "树莓派外部探针",
+      "sublabel": "NAS 失联或采集停止检测",
+      "tag": "独立 systemd 服务",
+      "pos": [
+        50,
+        600
+      ],
+      "size": [
+        240,
+        76
+      ]
+    },
+    {
+      "id": "bark",
+      "type": "external",
+      "label": "Server酱 → Bark",
+      "sublabel": "持续异常与恢复通知",
+      "tag": "去重 / 失败重试",
+      "pos": [
+        770,
+        600
+      ],
+      "size": [
+        240,
+        76
+      ]
     }
   ],
   "connections": [
@@ -136,6 +180,36 @@
       "to": "gateway",
       "label": "整理与嵌入",
       "variant": "dashed"
+    },
+    {
+      "from": "monitor",
+      "to": "store",
+      "label": "只读聚合指标",
+      "variant": "dashed"
+    },
+    {
+      "from": "monitor",
+      "to": "entry",
+      "label": "健康与状态",
+      "variant": "dashed"
+    },
+    {
+      "from": "probe",
+      "to": "monitor",
+      "label": "独立健康探测",
+      "variant": "dashed"
+    },
+    {
+      "from": "monitor",
+      "to": "bark",
+      "label": "异常 / 恢复",
+      "variant": "dashed"
+    },
+    {
+      "from": "probe",
+      "to": "bark",
+      "label": "失联 / 恢复",
+      "variant": "dashed"
     }
   ],
   "cards": [
@@ -165,6 +239,16 @@
         "NAS 镜像、共享库兼容处理与 Mac 插件一起验收",
         "冷语义查询偶发降级；生产恢复和长期负载未全验收",
         "模板需填本机参数；克隆不会创建自动化或部署服务"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "日常可观察性",
+      "items": [
+        "飞牛 Docker 快捷访问：只读中文运行面板",
+        "NAS 检查内部状态；树莓派检查 NAS 可达性",
+        "告警按单项持续时间判定，状态不变不重复提醒",
+        "同一网络断网仍可能无法推送；未自动备份或升级"
       ]
     }
   ]

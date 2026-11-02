@@ -19,6 +19,9 @@
 
 13. [Mihomo 代理组与空组行为](https://wiki.metacubex.one/config/proxy-groups/)
 14. [Mihomo 代理集合健康检查](https://wiki.metacubex.one/config/proxy-providers/)
+15. [上游本地管理 UI](https://github.com/410979729/scope-recall-hermes/blob/v3.17.0/docs/ui.md)
+16. [Server酱官方 SDK 与 SCT 接口](https://github.com/easychen/serverchan-sdk)
+17. [systemd 服务隔离与凭据](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html)
 
 [1]: https://github.com/410979729/scope-recall-hermes
 [2]: https://github.com/410979729/scope-recall-hermes/blob/v3.17.0/docs/install.md
@@ -35,3 +38,6 @@
 
 [13]: https://wiki.metacubex.one/config/proxy-groups/
 [14]: https://wiki.metacubex.one/config/proxy-providers/
+[15]: https://github.com/410979729/scope-recall-hermes/blob/v3.17.0/docs/ui.md
+[16]: https://github.com/easychen/serverchan-sdk
+[17]: https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html

@@ -2,12 +2,13 @@
 
 把 Scope Recall 部署到 fnOS Docker，并让 Mac 的 **Codex 与 DSH 共享同一份记忆**。本仓库总结一套在 2026-11-02 验收的部署：**Docker 与配置放存储空间 3；记忆、来源文件、向量与用量账本放存储空间 1；NAS 的 OpenAI 流量只走 GLaDOS。**
 
-这是一份部署指南、脱敏模板和版本检查工具。它不是 Scope Recall 上游，也不会安装一套网页管理后台。模板中的 `192.0.2.10`、`YOUR_*` 是占位值；初始化脚本是 3.17.0 的案例实现，需要先核对本机环境和目标版本接口。
+这是一份部署指南、脱敏模板、版本检查工具及只读运行状态面板。它不是 Scope Recall 上游；面板负责查看运行状态与异常通知，上游的记忆管理页面另行启动。模板中的 `192.0.2.10`、`YOUR_*` 是占位值；初始化脚本是 3.17.0 的案例实现，需要先核对本机环境和目标版本接口。
 
 - **完整流程**：[部署手册](docs/00-deployment-guide.md)
 - **交互图**：[下载单文件 HTML](docs/deployment.html)，在本机浏览器打开；GitHub 文件页不执行其中的交互脚本。支持深浅色、节点浏览与链路动效，无需开启 GitHub Pages。
 - **操作顺序**：[前提与存储](docs/01-storage.md) → [NAS Docker](docs/02-docker.md) → [Mac 客户端](docs/03-clients.md) → [GLaDOS 路由](docs/04-network.md) → [备份与升级](docs/05-operations.md)
 - **验证范围**：[验收与限制](docs/06-validation.md) · [发布核对](docs/07-publication-check.md)
+- **状态面板与 Bark**：[监控部署](docs/08-monitoring.md)。飞牛 Docker → `scope-recall-monitor` → 快捷访问。NAS 内部监控 + 树莓派独立探针，异常与恢复去重通知。
 
 ## 已验收的结构
 
@@ -16,6 +17,8 @@
 | `scope-recall-codex` | Codex 远程 Hook / MCP 入口 | Docker / 配置在空间 3 |
 | `scope-recall-dsh` | DSH 远程 Hook / MCP 入口 | Docker / 配置在空间 3 |
 | `scope-recall-worker` | 后台整理、嵌入及队列处理 | Docker / 配置在空间 3 |
+| `scope-recall-monitor` | 中文只读面板、运行检查、Server酱 → Bark | Docker / 私密配置在空间 3；状态在空间 1 |
+| 外部 watchdog | NAS 面板不可达或采集停止时通知 | 树莓派独立 systemd 服务 |
 | shared store | SQLite、来源、向量、模型用量账本 | 空间 1 |
 | Mac 插件 | 原生对话捕获、MCP 召回 | Mac；每个入口单独 token |
 | `NAS OpenAI` | 按 NAS 源地址与域名分流 | 树莓派透明网关；只用 GLaDOS |

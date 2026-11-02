@@ -1,0 +1,26 @@
+[Unit]
+Description=Scope Recall NAS reachability and collector watchdog
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+StateDirectory=scope-recall-watchdog
+StateDirectoryMode=0700
+LoadCredential=config:/etc/scope-recall-watchdog/config.json
+LoadCredential=sendkey:/etc/scope-recall-watchdog/serverchan.key
+ExecStart=/usr/bin/python3 /opt/scope-recall-watchdog/monitor.py --config %d/config
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

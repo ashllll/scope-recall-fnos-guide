@@ -66,7 +66,7 @@ docker compose logs --tail 50 worker
 
 日志仅本地检查，不上传原始会话或凭据。worker 运行上游有界批次，每批结束后等待 30 秒；容器终止信号会转发给子进程。Docker 承担重启和调度，未使用 `scope-recall autostart` 注册宿主服务；Linux 的 `autostart enable` 本身也不等于安装定时器。[8]
 
-飞牛界面进入 **Docker → 容器**，搜索 `scope-recall`。这三个是协议入口与后台服务，没有常驻管理网页，也不是另一个飞牛应用商店插件。
+飞牛界面进入 **Docker → 容器**，搜索 `scope-recall`。这三个是协议入口与后台服务；按[状态面板部署](08-monitoring.md)可增加第四个 `scope-recall-monitor`，从其“快捷访问”打开常驻只读面板。它不是另一个飞牛应用商店插件。
 
 [1]: https://github.com/410979729/scope-recall-hermes
 [2]: https://github.com/410979729/scope-recall-hermes/blob/v3.17.0/docs/install.md

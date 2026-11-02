@@ -1,0 +1,35 @@
+services:
+  monitor:
+    image: scope-recall:${SCOPE_RECALL_VERSION:?set SCOPE_RECALL_VERSION}-local
+    container_name: scope-recall-monitor
+    user: "${NAS_UID:?set NAS_UID}:${NAS_GID:?set NAS_GID}"
+    command: [python, /monitor-app/monitor.py, --config, /config/monitor.json]
+    restart: unless-stopped
+    init: true
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 256m
+    ports:
+      - "${NAS_LISTEN_IP:?set NAS_LISTEN_IP}:${MONITOR_PORT:-18767}:8080"
+    environment:
+      TZ: Asia/Shanghai
+      PYTHONDONTWRITEBYTECODE: "1"
+      NO_PROXY: localhost,127.0.0.1,${NAS_LISTEN_IP:?set NAS_LISTEN_IP}
+    volumes:
+      - ./monitor:/monitor-app:ro
+      - ${CONFIG_DIR:?set CONFIG_DIR}/monitor:/config:ro
+      - ${CONFIG_DIR:?set CONFIG_DIR}/model.env:/run/model.env:ro
+      - ${CONFIG_DIR:?set CONFIG_DIR}/shared-runtime.json:/run/runtime.json:ro
+      - ${DATA_DIR:?set DATA_DIR}/shared:/data/shared:ro
+      - ${DATA_DIR:?set DATA_DIR}/backups:/data/backups:ro
+      - ${DATA_DIR:?set DATA_DIR}/monitor:/state
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/healthz',timeout=5).read()"]
+      interval: 30s
+      timeout: 8s
+      retries: 3
+      start_period: 90s
+    logging:
+      driver: json-file
+      options: {max-size: "5m", max-file: "2"}

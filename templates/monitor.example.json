@@ -1,0 +1,26 @@
+{
+  "listen": "0.0.0.0",
+  "port": 8080,
+  "allowed_hosts": ["192.0.2.10", "127.0.0.1", "localhost"],
+  "poll_seconds": 60,
+  "alert_after_seconds": 120,
+  "recovery_after_seconds": 60,
+  "notify_retry_seconds": 900,
+  "worker_stale_seconds": 600,
+  "queue_age_seconds": 900,
+  "api_interval_seconds": 900,
+  "backup_age_seconds": 604800,
+  "disk_free_ratio": 0.1,
+  "stale_seconds": 240,
+  "store_root": "/data/shared",
+  "backup_dir": "/data/backups",
+  "runtime_file": "/run/runtime.json",
+  "model_env_file": "/run/model.env",
+  "state_dir": "/state",
+  "sendkey_file": "/config/serverchan.key",
+  "storage_paths": {"空间 1 · 记忆数据": "/data/shared", "空间 3 · Docker 配置": "/config"},
+  "entries": [
+    {"name": "Codex", "url": "http://192.0.2.10:18765", "token_file": "/config/codex.token"},
+    {"name": "DSH", "url": "http://192.0.2.10:18766", "token_file": "/config/dsh.token"}
+  ]
+}

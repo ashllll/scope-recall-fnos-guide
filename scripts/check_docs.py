@@ -5,7 +5,7 @@ from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-for path in [*ROOT.glob("scripts/*.py"), *ROOT.glob("deploy/*.py"), *ROOT.glob("tests/*.py")]:
+for path in [*ROOT.glob("scripts/*.py"), *ROOT.glob("deploy/**/*.py"), *ROOT.glob("tests/*.py")]:
     ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
 for path in [*ROOT.glob("templates/*.json"), *ROOT.glob("diagrams/*.json")]:
     json.loads(path.read_text(encoding="utf-8"))

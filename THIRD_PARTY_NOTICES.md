@@ -2,7 +2,7 @@
 
 本仓库为 Scope Recall 的独立部署说明，不是上游发行版。`hermes-scope-recall` 在构建时由包管理器安装，受其自身 MIT 许可约束：[上游 LICENSE](https://github.com/410979729/scope-recall-hermes/blob/v3.17.0/LICENSE)。
 
-交互 HTML 由 Archify 3.0.1 生成，包含其查看器及基于 Cocoon AI 的代码。以下保留该工具的 MIT 许可。文档中的产品名称归各自权利人所有。
+交互 HTML 由 Archify 3.2.0 生成，包含其查看器及基于 Cocoon AI 的代码。以下保留该工具的 MIT 许可。文档中的产品名称归各自权利人所有。
 
 MIT License
 

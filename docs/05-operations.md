@@ -4,6 +4,8 @@
 
 在 NAS 部署目录执行 `docker compose ps` 查看状态；`docker compose stop worker` 暂停后台模型处理，`docker compose start worker` 恢复。停止/启动全部现有容器用 `docker compose stop` / `start`。不要用 bootstrap 操作已有库。
 
+安装[状态面板与外部探针](08-monitoring.md)后，`.env` 的 `COMPOSE_FILE` 同时加载监控扩展，上述全部启停也包含监控容器。计划维护前暂停树莓派 watchdog，维护完成并确认面板健康后恢复它，避免把维护当成故障。监控配置、SendKey、两个 token 私有副本随空间 3 的配置一起备份，不入公开仓库。
+
 备份要停止两个入口和 worker，以释放共享 store 锁；案例中在线备份曾返回 `owned_lock`。以下是 3.17.0 手工备份命令，退出时恢复现有服务：
 
 ```sh
